@@ -137,6 +137,47 @@ class CircularLinkedList:
 
             self.delete_at_position(position)
 
+    def reverse(self):
+        # in case of 0 or 1 elements, no need to reverse
+        if self.length() < 2:
+            return
+        
+        # define 3 pointers
+        prev_node = None
+        current = self.head
+        next_node = current.next
+        
+        while True:
+            
+            # assign next pointer of current to previous node
+            current.next = prev_node
+            
+            # slide the pointers
+            prev_node = current
+            current = next_node
+            next_node = current.next
+            
+            # repeat until you reach head again
+            if current == self.head:
+                break
+        
+        # adjust head
+        self.head.next = prev_node
+        self.head = prev_node  
+
+    # search method
+    def search(self, value):
+        current = self.head
+        
+        while True:
+            # move to next
+            current = current.next
+            # True if value is found
+            if(current.data == value):
+                return True
+            # False if loop is complete
+            if(current == self.head):
+                return False
 
 linked_list = CircularLinkedList()
 
@@ -174,18 +215,8 @@ print(linked_list.display())
 print()
 
 # delete the first node
-linked_list.delete_nodes(1)
-print("After deleting the first node:")
+linked_list.reverse()
+print("After reversing:")
 print(linked_list.display())
 print() 
 
-# delete the node at position 2
-linked_list.delete_nodes(2)
-print("After deleting the node at position 2:")
-print(linked_list.display())
-print()
-
-# delete the last node
-linked_list.delete_nodes(linked_list.length())
-print("After deleting the last node:")
-print(linked_list.display())
